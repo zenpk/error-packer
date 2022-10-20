@@ -65,7 +65,7 @@ func convertErrPack(err error) (errPack ErrPack) {
 	return
 }
 
-// packCore do the core functions
+// packCore does the core functions
 func (p *Packer) packCore(errPack ErrPack) interface{} {
 	ref := reflect.ValueOf(&p.V).Elem()
 	refCopy := reflect.New(ref.Elem().Type()).Elem()
