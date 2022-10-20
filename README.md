@@ -90,8 +90,8 @@ type User struct {
 
 type UserLoginResp struct {
 	Seq  int64  `json:"seq" ep:"-1"`          // will be -1
-	Code int64  `json:"code" ep:"err.code"`   // will eventually be errPack.Code
-	Msg  string `json:"msg" ep:"err.msg"`     // will eventually be errPack.Msg
+	Code int64  `json:"code" ep:"err.code"`   // will eventually be ErrPack.Code
+	Msg  string `json:"msg" ep:"err.msg"`     // will eventually be ErrPack.Msg
 	User *User  `json:"user,omitempty" ep:""` // will omit this field
 }
 
@@ -99,7 +99,7 @@ func handler(c *gin.Context) {
 	// create a new packer your JSON interface
 	packer := ep.Packer{V: UserLoginResp{}}
 	err := ep.ErrInputBody      // assume that an input body error happened
-	resp := packer.Pack(err)    // pack the response interface with the error
+	resp := packer.Pack(err)    // pack the response struct with the error
 	c.JSON(http.StatusOK, resp) // return with resp
 }
 
