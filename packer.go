@@ -16,6 +16,7 @@ package ep
 
 import (
 	"errors"
+	"log"
 	"reflect"
 	"strconv"
 )
@@ -26,7 +27,33 @@ type Packer struct {
 
 // Pack return the given interface with tagged values and ErrPack
 func (p *Packer) Pack(err error) interface{} {
-	var errPack ErrPack
+	errPack := convertErrPack(err)
+	return p.packCore(errPack)
+}
+
+// PackWithInfo will do the pack and additionally log the error with INFO level
+func (p *Packer) PackWithInfo(err error) interface{} {
+	errPack := convertErrPack(err)
+	log.Printf("INFO: %s", errPack.Msg) // use the logger you prefer
+	return p.packCore(errPack)
+}
+
+// PackWithWarn will do the pack and additionally log the error with WARN level
+func (p *Packer) PackWithWarn(err error) interface{} {
+	errPack := convertErrPack(err)
+	log.Printf("WARN: %s", errPack.Msg) // use the logger you prefer
+	return p.packCore(errPack)
+}
+
+// PackWithError will do the pack and additionally log the error with Error level
+func (p *Packer) PackWithError(err error) interface{} {
+	errPack := convertErrPack(err)
+	log.Printf("ERROR: %s", errPack.Msg) // use the logger you prefer
+	return p.packCore(errPack)
+}
+
+// convertErrPack convert error to ErrPack
+func convertErrPack(err error) (errPack ErrPack) {
 	if err == nil {
 		errPack = ErrOK
 	} else {
@@ -35,6 +62,11 @@ func (p *Packer) Pack(err error) interface{} {
 			errPack.Msg = err.Error()
 		}
 	}
+	return
+}
+
+// packCore do the core functions
+func (p *Packer) packCore(errPack ErrPack) interface{} {
 	ref := reflect.ValueOf(&p.V).Elem()
 	refCopy := reflect.New(ref.Elem().Type()).Elem()
 	for i := 0; i < ref.Elem().NumField(); i++ {
@@ -70,8 +102,5 @@ func (p *Packer) Pack(err error) interface{} {
 		}
 	}
 	ref.Set(refCopy)
-	if errPack != ErrOK {
-		// handle the logs
-	}
 	return p.V
 }
