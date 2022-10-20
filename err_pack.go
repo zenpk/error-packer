@@ -30,12 +30,12 @@ func (e ErrPack) Error() string {
 // ABC
 // A:  [0: success,
 //		(client) 1: input error,
-//		(server) 2: data type error, 3: database error, 4: communication error, 5: logical error, 6: unknown error]
+//		(server) 2: data type error, 3: middleware error, 4: database error, 5: communication error, 6: logical error, 9: unknown error]
 // BC: [00: -, 01~99: specified error]
 
 var (
 	ErrOK              = ErrPack{0, "success"}
-	ErrUnknown         = ErrPack{600, "unknown error"}
+	ErrUnknown         = ErrPack{900, "unknown error"}
 	ErrInputHeader     = ErrPack{101, "input header error"}
 	ErrInputBody       = ErrPack{102, "input body error"}
 	ErrInputToken      = ErrPack{103, "input token error"}
@@ -45,8 +45,9 @@ var (
 	ErrParseCookie     = ErrPack{203, "parse token error"}
 	ErrSetToken        = ErrPack{204, "set token error"}
 	ErrSetCookie       = ErrPack{205, "set cookie error"}
-	ErrDBConn          = ErrPack{301, "database connection error"}
-	ErrNoRecord        = ErrPack{302, "database no record error"}
-	ErrDuplicateRecord = ErrPack{303, "database duplicate record error"}
-	ErrServiceConn     = ErrPack{401, "service communication error"}
+	ErrGenJWT          = ErrPack{301, "generate JWT error"}
+	ErrDBConn          = ErrPack{401, "database connection error"}
+	ErrNoRecord        = ErrPack{402, "database no record error"}
+	ErrDuplicateRecord = ErrPack{403, "database duplicate record error"}
+	ErrServiceConn     = ErrPack{501, "service communication error"}
 )
