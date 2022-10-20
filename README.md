@@ -14,7 +14,7 @@ Take Gin framework as an example, the usual way to handle the errors is somethin
 ```go
 package whygolandforcesmetouseapackageinreadme
 
-func some() {
+func handler(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusOK, SomeStruct{
 			Resp: Resp{
@@ -33,10 +33,10 @@ After introducing to error-packer (ep), it will become something like this
 ```go
 package whygolandforcesmetouseapackageinreadme
 
-func some() {
+func handler(c *gin.Context) {
 	packer := ep.Packer{V: SomeStruct{}}
 	if err != nil {
-		ep.Pack(err)
+		c.JSON(http.StatusOK, packer.Pack(err).(SomeStruct))
 		return
 	}
 }
