@@ -27,25 +27,26 @@ func (e ErrPack) Error() string {
 }
 
 // Error Code
-// A B C D
-// A:  [2: success, 4: client error, 5: server error]
-// B:  [0: -, 1: input error, 2: data type error, 3: database error, 4: communication error, 5: logical error, 6: unknown error]
-// CD: [00: -, 01~99: specified error]
+// ABC
+// A:  [0: success,
+//		(client) 1: input error,
+//		(server) 2: data type error, 3: database error, 4: communication error, 5: logical error, 6: unknown error]
+// BC: [00: -, 01~99: specified error]
 
 var (
-	ErrOK              = ErrPack{2000, "success"}
-	ErrUnknown         = ErrPack{5600, "unknown error"}
-	ErrInputHeader     = ErrPack{4101, "input header error"}
-	ErrInputBody       = ErrPack{4102, "input body error"}
-	ErrInputToken      = ErrPack{4103, "input token error"}
-	ErrInputCookie     = ErrPack{4104, "input cookie error"}
-	ErrTypeConv        = ErrPack{5201, "type conversion error"}
-	ErrParseToken      = ErrPack{5202, "parse token error"}
-	ErrParseCookie     = ErrPack{5203, "parse token error"}
-	ErrSetToken        = ErrPack{5204, "set token error"}
-	ErrSetCookie       = ErrPack{5205, "set cookie error"}
-	ErrDBConn          = ErrPack{5301, "database connection error"}
-	ErrNoRecord        = ErrPack{5302, "database no record error"}
-	ErrDuplicateRecord = ErrPack{5303, "database duplicate record error"}
-	ErrServiceConn     = ErrPack{5401, "service communication error"}
+	ErrOK              = ErrPack{0, "success"}
+	ErrUnknown         = ErrPack{600, "unknown error"}
+	ErrInputHeader     = ErrPack{101, "input header error"}
+	ErrInputBody       = ErrPack{102, "input body error"}
+	ErrInputToken      = ErrPack{103, "input token error"}
+	ErrInputCookie     = ErrPack{104, "input cookie error"}
+	ErrTypeConv        = ErrPack{201, "type conversion error"}
+	ErrParseToken      = ErrPack{202, "parse token error"}
+	ErrParseCookie     = ErrPack{203, "parse token error"}
+	ErrSetToken        = ErrPack{204, "set token error"}
+	ErrSetCookie       = ErrPack{205, "set cookie error"}
+	ErrDBConn          = ErrPack{301, "database connection error"}
+	ErrNoRecord        = ErrPack{302, "database no record error"}
+	ErrDuplicateRecord = ErrPack{303, "database duplicate record error"}
+	ErrServiceConn     = ErrPack{401, "service communication error"}
 )
