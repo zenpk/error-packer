@@ -17,7 +17,7 @@ package ep
 import "fmt"
 
 type ErrPack struct {
-	Code int16
+	Code int32
 	Msg  string
 }
 
@@ -40,6 +40,7 @@ var (
 	ErrInputBody       = ErrPack{102, "input body error"}
 	ErrInputToken      = ErrPack{103, "input token error"}
 	ErrInputCookie     = ErrPack{104, "input cookie error"}
+	ErrNotLogin        = ErrPack{105, "user not logged in error"}
 	ErrTypeConv        = ErrPack{201, "type conversion error"}
 	ErrParseToken      = ErrPack{202, "parse token error"}
 	ErrParseCookie     = ErrPack{203, "parse token error"}
