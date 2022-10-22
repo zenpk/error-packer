@@ -19,7 +19,7 @@ func handler(c *gin.Context) {
 		c.JSON(http.StatusOK, SomeStruct{
 			Resp: Resp{
 				Code: -1,
-				Msg:  "something went wrong",
+				Msg:  err.Error(),
 			},
 			Data: someData,
 		})
@@ -36,7 +36,7 @@ package whygolandforcesmetouseapackageinreadme
 func handler(c *gin.Context) {
 	packer := ep.Packer{V: SomeStruct{}}
 	if err != nil {
-		c.JSON(http.StatusOK, packer.Pack(err).(SomeStruct))
+		c.JSON(http.StatusOK, packer.Pack(err))
 		return
 	}
 }
