@@ -1,15 +1,14 @@
 # error-packer
 
-Go struct packer, specifically for handling errors, works similarly as https://github.com/zenpk/gin-error-handler but
-has more flexibility.
+Go struct packer, specifically for handling errors, works similarly as https://github.com/zenpk/gin-error-handler but more flexible.
 
 ## Why
 
 The way Go handles errors will always end up with a bunch of `if err!=nil`, it's ok itself but when we have to return a
-struct every time an error occurs, it can take up a lot of lines which significantly decrease the readability and make
+struct every time an error occurs, it can take up a lot of lines which significantly decreases the readability and make
 typing work more tedious.
 
-Take Gin framework as an example, the usual way to handle the errors is something like this
+Take Gin framework as an example, the usual way to handle errors is something like this
 
 ```go
 package whygolandforcesmetouseapackageinreadme
@@ -28,7 +27,7 @@ func handler(c *gin.Context) {
 }
 ```
 
-After introducing to error-packer (ep), it will become something like this
+After introducing the error-packer (ep), it will become something like this
 
 ```go
 package whygolandforcesmetouseapackageinreadme
@@ -48,8 +47,7 @@ Much cleaner right? Let's get into it.
 
 ### Packer
 
-Packer is for "packing a struct". It will take a struct and an ErrPack struct, read the default values in the
-struct tags, fill the fields with default values or ErrPack's code/msg, and return the modified struct.
+Packer is for "packing a struct". It will pack an ErrPack struct into any struct and fill the fields with tagged values.
 
 ### ErrPack struct
 
@@ -66,8 +64,7 @@ Define your struct with "ep" tags.
 
 There are 3 meaningful tags, others stand for the default values of the fields:
 
-`ep:"err.code"` - the field with this tag will be filled with ErrPack.Code, it must be int type and not smaller than
-int16
+`ep:"err.code"` - the field with this tag will be filled with ErrPack.Code, it must be int type
 `ep:"err.msg"` - the field with this tag will be filled with ErrPack.Msg, it must be string type
 `ep:""` - the field with an empty tag will remain the default value of the type, you can also omit the tag
 
