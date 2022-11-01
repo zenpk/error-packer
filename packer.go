@@ -71,6 +71,15 @@ func (p *Packer) packCore(errPack ErrPack) interface{} {
 	refCopy := reflect.New(ref.Elem().Type()).Elem()
 	for i := 0; i < ref.Elem().NumField(); i++ {
 		tag := ref.Elem().Type().Field(i).Tag.Get("ep")
+		if tag == "-" {
+			continue
+		}
+		// embedded struct, must be exported
+		if ref.Elem().Field(i).Kind() == reflect.Struct {
+			embeddedPack := &Packer{V: ref.Elem().Field(i).Interface()}
+			refCopy.Field(i).Set(reflect.ValueOf(embeddedPack.packCore(errPack)))
+			continue
+		}
 		if len(tag) <= 0 {
 			continue
 		}

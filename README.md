@@ -1,6 +1,7 @@
-# error-packer
+# Error Packer
 
-Go struct packer, specifically for handling errors, works similarly as https://github.com/zenpk/gin-error-handler but more flexible.
+Go struct packer, specifically for handling errors, works similarly as https://github.com/zenpk/gin-error-handler but
+more flexible.
 
 ## Why
 
@@ -27,7 +28,7 @@ func handler(c *gin.Context) {
 }
 ```
 
-After introducing the error-packer (ep), it will become something like this
+After introducing the Error Packer (ep), it will become something like this
 
 ```go
 package whygolandforcesmetouseapackageinreadme
@@ -62,11 +63,13 @@ Copy the `packer.go` and `err_pack.go` file to wherever you want.
 
 Define your struct with "ep" tags.
 
-There are 3 meaningful tags, others stand for the default values of the fields:
+There are 4 meaningful tags, others stand for the default values of the fields:
 
-`ep:"err.code"` - the field with this tag will be filled with ErrPack.Code, it must be int type
-`ep:"err.msg"` - the field with this tag will be filled with ErrPack.Msg, it must be string type
-`ep:""` - the field with an empty tag will remain the default value of the type, you can also omit the tag
+- `ep:"err.code"` - the field with this tag will be filled with ErrPack.Code, it must be int type
+- `ep:"err.msg"` - the field with this tag will be filled with ErrPack.Msg, it must be string type
+- `ep:""` - the field with an empty tag will remain the default value of the type, you can also omit the tag
+- `ep:"-"` - the field with this tag will be forcefully ignored, this is useful when it comes to embedded struct (see
+  explanation below)
 
 ## Example
 
@@ -115,4 +118,16 @@ func main() {
 
 ```text
 {"seq":-1,"code":4102,"msg":"input body error"}
+```
+
+## Embedded Struct
+
+Error Packer supports embedded struct. However, every field must be exported, otherwise errors will occur. If you don't
+want Packer to traverse the whole embedded struct, you can add an`ep:"-"`tag to a struct to ignore the field.
+
+```go
+type Parent struct{
+  children `ep:"-"` // if not adding the tag, Packer will go into the children struct which is not exported, and causing an error
+  Others string
+}
 ```
