@@ -27,28 +27,27 @@ func (e ErrPack) Error() string {
 }
 
 // Error Code
-// ABC
-// A:  [0: success,
-//		(client) 1: input error,
-//		(server) 2: data type error, 3: middleware error, 4: database error, 5: communication error, 6: logical error, 9: unknown error]
-// BC: [00: -, 01~99: specified error]
+// A B CD
+// A: error side [2: success, 4: client, 5: server]
+// B: error position (layer)
+// 		[0: client]
+// 		[1: handler, 2: middleware, 3: rpc, 4: message queue, 5: service, 6: cache, 7: database, 9: unknown]
+// CD:  [00: -, 01~99: specified error]
 
 var (
-	ErrOK              = ErrPack{0, "success"}
-	ErrUnknown         = ErrPack{900, "unknown error"}
-	ErrInputHeader     = ErrPack{101, "input header error"}
-	ErrInputBody       = ErrPack{102, "input body error"}
-	ErrInputToken      = ErrPack{103, "input token error"}
-	ErrInputCookie     = ErrPack{104, "input cookie error"}
-	ErrNotLogin        = ErrPack{105, "user not logged in error"}
-	ErrTypeConv        = ErrPack{201, "type conversion error"}
-	ErrParseToken      = ErrPack{202, "parse token error"}
-	ErrParseCookie     = ErrPack{203, "parse token error"}
-	ErrSetToken        = ErrPack{204, "set token error"}
-	ErrSetCookie       = ErrPack{205, "set cookie error"}
-	ErrGenJWT          = ErrPack{301, "generate JWT error"}
-	ErrDBConn          = ErrPack{401, "database connection error"}
-	ErrNoRecord        = ErrPack{402, "database no record error"}
-	ErrDuplicateRecord = ErrPack{403, "database duplicate record error"}
-	ErrServiceConn     = ErrPack{501, "service communication error"}
+	ErrOK               = ErrPack{2000, "success"}
+	ErrUnknown          = ErrPack{5900, "unknown error"}
+	ErrNotLogin         = ErrPack{4001, "user not logged in error"}
+	ErrInputHeader      = ErrPack{4002, "input header error"}
+	ErrInputBody        = ErrPack{4003, "input body error"}
+	ErrParseToken       = ErrPack{5201, "parse token error"}
+	ErrServiceConn      = ErrPack{5301, "service communication error"}
+	ErrCacheConn        = ErrPack{5601, "cache connection error"}
+	ErrNoCache          = ErrPack{5602, "no cache error"}
+	ErrDBConn           = ErrPack{5701, "database connection error"}
+	ErrNoRecord         = ErrPack{5702, "database no record error"}
+	ErrDuplicatedRecord = ErrPack{5703, "database duplicated record error"}
+	ErrTypeConv         = ErrPack{5901, "type conversion error"}
+	ErrGenJWT           = ErrPack{5903, "generate JWT error"}
+	ErrParseJWT         = ErrPack{5903, "parse JWT error"}
 )
