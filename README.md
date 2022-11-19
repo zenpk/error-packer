@@ -1,6 +1,6 @@
 # Error Packer
 
-Go struct packer, specifically for handling errors, works similarly as https://github.com/zenpk/gin-error-handler but
+Go struct packer, specifically for handling errors, works similarly as <https://github.com/zenpk/gin-error-handler> but
 more flexible.
 
 ## Why
@@ -12,33 +12,29 @@ typing work more tedious.
 Take Gin framework as an example, the usual way to handle errors is something like this
 
 ```go
-package whygolandforcesmetouseapackageinreadme
-
 func handler(c *gin.Context) {
-	if err != nil {
-		c.JSON(http.StatusOK, SomeStruct{
-			Resp: Resp{
-				Code: -1,
-				Msg:  err.Error(),
-			},
-			Data: someData,
-		})
-		return
-	}
+    if err != nil {
+       c.JSON(http.StatusOK, SomeStruct{
+            Resp: Resp{
+                Code: -1,
+                Msg:  err.Error(),
+            },
+            Data: someData,
+        })
+        return
+    }
 }
 ```
 
 After introducing the Error Packer (ep), it will become something like this
 
 ```go
-package whygolandforcesmetouseapackageinreadme
-
 func handler(c *gin.Context) {
-	packer := ep.Packer{V: SomeStruct{}}
-	if err != nil {
-		c.JSON(http.StatusOK, packer.Pack(err))
-		return
-	}
+    packer := ep.Packer{V: SomeStruct{}}
+    if err != nil {
+        c.JSON(http.StatusOK, packer.Pack(err))
+        return
+    }
 }
 ```
 
@@ -77,47 +73,47 @@ There are 4 meaningful tags, others stand for the default values of the fields:
 package main
 
 import (
-	"fmt"
-	"github.com/gin-gonic/gin"
-	ep "github.com/zenpk/error-packer"
-	"net/http"
-	"net/http/httptest"
+    "fmt"
+    "github.com/gin-gonic/gin"
+    ep "github.com/zenpk/error-packer"
+    "net/http"
+    "net/http/httptest"
 )
 
 type User struct {
-	Name string `json:"name,omitempty"`
+    Name string `json:"name,omitempty"`
 }
 
 type UserLoginResp struct {
-	Seq  int64  `json:"seq" ep:"-1"`          // will be -1
-	Code int64  `json:"code" ep:"err.code"`   // will eventually be ErrPack.Code
-	Msg  string `json:"msg" ep:"err.msg"`     // will eventually be ErrPack.Msg
-	User *User  `json:"user,omitempty" ep:""` // will omit this field
+    Seq  int64  `json:"seq" ep:"-1"`          // will be -1
+    Code int64  `json:"code" ep:"err.code"`   // will eventually be ErrPack.Code
+    Msg  string `json:"msg" ep:"err.msg"`     // will eventually be ErrPack.Msg
+    User *User  `json:"user,omitempty" ep:""` // will omit this field
 }
 
 func handler(c *gin.Context) {
-	// create a new packer your JSON interface
-	packer := ep.Packer{V: UserLoginResp{}}
-	err := ep.ErrInputBody      // assume that an input body error happened
-	resp := packer.Pack(err)    // pack the response struct with the error
-	c.JSON(http.StatusOK, resp) // return with resp
+    // create a new packer your JSON interface
+    packer := ep.Packer{V: UserLoginResp{}}
+    err := ep.ErrInputBody      // assume that an input body error happened
+    resp := packer.Pack(err)    // pack the response struct with the error
+    c.JSON(http.StatusOK, resp) // return with resp
 }
 
 func main() {
-	req, _ := http.NewRequest(http.MethodGet, "/err", nil) // make a mock request
-	rec := httptest.NewRecorder()                          // record the mock request
-	// use Gin to handle the request
-	r := gin.Default()
-	r.GET("/err", handler)
-	r.ServeHTTP(rec, req)
-	fmt.Println(rec.Body.String())
+    req, _ := http.NewRequest(http.MethodGet, "/err", nil) // make a mock request
+    rec := httptest.NewRecorder()                          // record the mock request
+    // use Gin to handle the request
+    r := gin.Default()
+    r.GET("/err", handler)
+    r.ServeHTTP(rec, req)
+    fmt.Println(rec.Body.String())
 }
 ```
 
 ### Output
 
 ```text
-{"seq":-1,"code":4102,"msg":"input body error"}
+{"seq":-1,"code":4003,"msg":"input body error"}
 ```
 
 ## Embedded Struct
@@ -127,7 +123,7 @@ want Packer to traverse the whole embedded struct, you can add an`ep:"-"`tag to 
 
 ```go
 type Parent struct{
-  children `ep:"-"` // if not adding the tag, Packer will go into the children struct which is not exported, and causing an error
-  Others string
+    children `ep:"-"` // if not adding the tag, Packer will go into the children struct which is not exported, and causing an error
+    Others string
 }
 ```
