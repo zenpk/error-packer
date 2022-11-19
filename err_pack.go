@@ -38,8 +38,9 @@ var (
 	ErrOK               = ErrPack{2000, "success"}
 	ErrUnknown          = ErrPack{5900, "unknown error"}
 	ErrNotLogin         = ErrPack{4001, "user not logged in error"}
-	ErrInputHeader      = ErrPack{4002, "input header error"}
-	ErrInputBody        = ErrPack{4003, "input body error"}
+	ErrNoPermission     = ErrPack{4002, "no permission error"}
+	ErrInputHeader      = ErrPack{4003, "input header error"}
+	ErrInputBody        = ErrPack{4004, "input body error"}
 	ErrParseToken       = ErrPack{5201, "parse token error"}
 	ErrServiceConn      = ErrPack{5301, "service communication error"}
 	ErrCacheConn        = ErrPack{5601, "cache connection error"}
