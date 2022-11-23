@@ -43,6 +43,7 @@ var (
 	ErrInputBody        = ErrPack{4004, "input body error"}
 	ErrParseToken       = ErrPack{5201, "parse token error"}
 	ErrServiceConn      = ErrPack{5301, "service communication error"}
+	ErrLogic            = ErrPack{5501, "logical error"}
 	ErrCacheConn        = ErrPack{5601, "cache connection error"}
 	ErrNoCache          = ErrPack{5602, "no cache error"}
 	ErrDBConn           = ErrPack{5701, "database connection error"}
