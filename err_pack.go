@@ -17,8 +17,8 @@ package ep
 import "fmt"
 
 type ErrPack struct {
-	Code int32
-	Msg  string
+	Code int32  `json:"code,omitempty" ep:"err.code"`
+	Msg  string `json:"msg,omitempty" ep:"err.msg"`
 }
 
 // Error implement error type
