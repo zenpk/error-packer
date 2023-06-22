@@ -1,7 +1,6 @@
 # Error Packer
 
-Go struct packer, specifically for handling errors, works similarly as <https://github.com/zenpk/gin-error-handler> but
-more flexible.
+Go struct packer, specifically for handling errors
 
 ## Why
 
